@@ -35,7 +35,7 @@ public class CreateDeveloper {
 
     @Getter @Setter @ToString
     @AllArgsConstructor @NoArgsConstructor @Builder
-    public static class Responses {
+    public static class Response {
         private DeveloperLevel developerLevel;
         private DeveloperSkillType developerSkillType;
         private Integer experienceYears;
