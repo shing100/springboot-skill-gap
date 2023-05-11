@@ -1,5 +1,6 @@
 package com.example.dmaker.service;
 
+import com.example.dmaker.dto.CreateDeveloper;
 import com.example.dmaker.entity.Developer;
 import com.example.dmaker.repository.DeveloperRepository;
 import com.example.dmaker.type.DeveloperLevel;
@@ -9,15 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.validation.Valid;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DMakerService {
     private final DeveloperRepository developerRepository;
-    private final EntityManager em;
 
     // ACID
     // Atomicity: 원자성
@@ -25,26 +24,16 @@ public class DMakerService {
     // Isolation: 고립성
     // Durability: 지속성
     @Transactional
-    public void createDeveloper() {
-        EntityTransaction transaction = em.getTransaction();
-        try {
-            transaction.begin();
+    public void createDeveloper(CreateDeveloper.Request request) {
+        Developer developer = Developer.builder()
+                .developerLevel(DeveloperLevel.JUNIOR)
+                .developerSkillType(DeveloperSkillType.FRONT_END)
+                .experienceYears(2)
+                .name("Olaf")
+                .age(5)
+                .build();
 
-            Developer developer = Developer.builder()
-                    .developerLevel(DeveloperLevel.JUNIOR)
-                    .developerSkillType(DeveloperSkillType.FRONT_END)
-                    .experienceYears(2)
-                    .name("Olaf")
-                    .age(5)
-                    .build();
-
-            developerRepository.save(developer);
-        } catch (Exception e) {
-            log.error("error: {}", e);
-            transaction.rollback();
-        } finally {
-            transaction.commit();
-        }
+        developerRepository.save(developer);
     }
 
 
