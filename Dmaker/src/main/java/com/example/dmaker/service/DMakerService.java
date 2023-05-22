@@ -6,13 +6,10 @@ import com.example.dmaker.exception.DMakerErrorCode;
 import com.example.dmaker.exception.DMakerException;
 import com.example.dmaker.repository.DeveloperRepository;
 import com.example.dmaker.type.DeveloperLevel;
-import com.example.dmaker.type.DeveloperSkillType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.validation.Valid;
 
 @Slf4j
 @Service
@@ -26,18 +23,20 @@ public class DMakerService {
     // Isolation: 고립성
     // Durability: 지속성
     @Transactional
-    public void createDeveloper(CreateDeveloper.Request request) {
+    public CreateDeveloper.Response createDeveloper(CreateDeveloper.Request request) {
         validateCreateDeveloperRequest(request);
 
         Developer developer = Developer.builder()
-                .developerLevel(DeveloperLevel.JUNIOR)
-                .developerSkillType(DeveloperSkillType.FRONT_END)
-                .experienceYears(2)
-                .name("Olaf")
-                .age(5)
+                .developerLevel(request.getDeveloperLevel())
+                .developerSkillType(request.getDeveloperSkillType())
+                .experienceYears(request.getExperienceYears())
+                .memberId(request.getMemberId())
+                .name(request.getName())
+                .age(request.getAge())
                 .build();
 
         developerRepository.save(developer);
+        return CreateDeveloper.Response.fromEntity(developer);
     }
 
     private void validateCreateDeveloperRequest(CreateDeveloper.Request request) {
