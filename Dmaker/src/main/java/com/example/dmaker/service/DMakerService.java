@@ -1,10 +1,7 @@
 package com.example.dmaker.service;
 
 import com.example.dmaker.code.StatusCode;
-import com.example.dmaker.dto.CreateDeveloper;
-import com.example.dmaker.dto.DeveloperDetailDto;
-import com.example.dmaker.dto.DeveloperDto;
-import com.example.dmaker.dto.EditDeveloper;
+import com.example.dmaker.dto.*;
 import com.example.dmaker.entity.Developer;
 import com.example.dmaker.entity.RetiredDeveloper;
 import com.example.dmaker.exception.DMakerErrorCode;
@@ -14,9 +11,13 @@ import com.example.dmaker.repository.RetiredDeveloperRepository;
 import com.example.dmaker.type.DeveloperLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -120,5 +121,14 @@ public class DMakerService {
 
         retiredDeveloperRepository.save(retiredDeveloper);
         return DeveloperDetailDto.fromEntity(developer);
+    }
+
+    @ExceptionHandler(DMakerException.class)
+    public DMakerResponse handleException(DMakerException e, HttpServletRequest request) {
+        log.error("errorCode: {}, url: {}, message: {}", e.getDMakerErrorCode(), request.getRequestURI(), e.getDetailMessage());
+        return DMakerResponse.builder()
+                .errorCode(e.getDMakerErrorCode())
+                .errorMessage(e.getDetailMessage())
+                .build();
     }
 }
