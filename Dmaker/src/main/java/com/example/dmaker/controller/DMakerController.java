@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -25,7 +23,7 @@ public class DMakerController {
     public List<DeveloperDto> getAllDevelopers() {
         log.info("GET /developers HTTP/1.1");
 
-        return dMakerService.getAllDevelopers();
+        return dMakerService.getAllEmployedDevelopers();
     }
 
     @GetMapping("/deleloper/{memberId}")
@@ -44,9 +42,16 @@ public class DMakerController {
     }
 
     @PutMapping("/deleloper/{memberId}")
-    public DeveloperDetailDto editDeveloperDetail(@PathVariable String memberId, @Valid @RequestBody EditDeveloper.Request request) {
-        log.info("GET /developer HTTP/1.1");
+    public DeveloperDetailDto editDeveloper(@PathVariable String memberId, @Valid @RequestBody EditDeveloper.Request request) {
+        log.info("PUT /developer HTTP/1.1");
 
-        return dMakerService.editDeveloperDetail(memberId, request);
+        return dMakerService.editDeveloper(memberId, request);
+    }
+
+    @PutMapping("/deleloper/{memberId}")
+    public DeveloperDetailDto deleteDeveloper(@PathVariable String memberId) {
+        log.info("DELETE /developer HTTP/1.1");
+
+        return dMakerService.deleteDeveloper(memberId);
     }
 }
