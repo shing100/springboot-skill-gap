@@ -11,13 +11,9 @@ import com.example.dmaker.repository.RetiredDeveloperRepository;
 import com.example.dmaker.type.DeveloperLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +53,7 @@ public class DMakerService {
                 .collect(Collectors.toList());
     }
 
-    public DeveloperDetailDto getAllDeveloperDetail(String memberId) {
+    public DeveloperDetailDto getDeveloperDetail(String memberId) {
         return developerRepository.findByMemberId(memberId)
                 .map(DeveloperDetailDto::fromEntity)
                 .orElseThrow(() -> new DMakerException(DMakerErrorCode.NO_DEVELOPER));

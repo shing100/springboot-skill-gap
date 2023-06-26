@@ -30,7 +30,7 @@ public class DMakerController {
     public DeveloperDetailDto getAllDeveloperDetail(@PathVariable String memberId) {
         log.info("GET /developer HTTP/1.1");
 
-        return dMakerService.getAllDeveloperDetail(memberId);
+        return dMakerService.getDeveloperDetail(memberId);
     }
 
 
