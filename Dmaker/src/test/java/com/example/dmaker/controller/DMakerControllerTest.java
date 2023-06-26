@@ -38,12 +38,12 @@ class DMakerControllerTest {
         DeveloperDto juniorDeveloperDto = DeveloperDto.builder()
                 .developerLevel(DeveloperLevel.JUNIOR)
                 .developerSkillType(DeveloperSkillType.BACK_END)
-                .memberId("memberId")
+                .memberId("memberId1")
                 .build();
         DeveloperDto seniorDeveloperDto = DeveloperDto.builder()
                 .developerLevel(DeveloperLevel.SENIOR)
                 .developerSkillType(DeveloperSkillType.FRONT_END)
-                .memberId("memberId")
+                .memberId("memberId2")
                 .build();
         given(dMakerService.getAllEmployedDevelopers())
                 .willReturn(Arrays.asList(juniorDeveloperDto, seniorDeveloperDto));
@@ -53,10 +53,10 @@ class DMakerControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$[0].developerLevel").value(DeveloperLevel.JUNIOR.name()))
                 .andExpect(jsonPath("$[0].developerSkillType").value(DeveloperSkillType.BACK_END.name()))
-                .andExpect(jsonPath("$[0].memberId").value("memberId"))
+                .andExpect(jsonPath("$[0].memberId").value("memberId1"))
                 .andExpect(jsonPath("$[1].developerLevel").value(DeveloperLevel.SENIOR.name()))
                 .andExpect(jsonPath("$[1].developerSkillType").value(DeveloperSkillType.FRONT_END.name()))
-                .andExpect(jsonPath("$[1].memberId").value("memberId"));
+                .andExpect(jsonPath("$[1].memberId").value("memberId2"));
 
     }
 }
