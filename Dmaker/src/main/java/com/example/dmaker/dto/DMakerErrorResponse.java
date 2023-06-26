@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor @NoArgsConstructor
 @Builder
-public class DMakerResponse {
+public class DMakerErrorResponse {
     private DMakerErrorCode errorCode;
     private String errorMessage;
 }

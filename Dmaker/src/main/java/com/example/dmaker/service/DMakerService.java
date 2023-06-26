@@ -122,13 +122,4 @@ public class DMakerService {
         retiredDeveloperRepository.save(retiredDeveloper);
         return DeveloperDetailDto.fromEntity(developer);
     }
-
-    @ExceptionHandler(DMakerException.class)
-    public DMakerResponse handleException(DMakerException e, HttpServletRequest request) {
-        log.error("errorCode: {}, url: {}, message: {}", e.getDMakerErrorCode(), request.getRequestURI(), e.getDetailMessage());
-        return DMakerResponse.builder()
-                .errorCode(e.getDMakerErrorCode())
-                .errorMessage(e.getDetailMessage())
-                .build();
-    }
 }
