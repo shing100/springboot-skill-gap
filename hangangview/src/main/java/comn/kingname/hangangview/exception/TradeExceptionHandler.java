@@ -1,22 +1,27 @@
 package comn.kingname.hangangview.exception;
 
+import comn.kingname.hangangview.util.TelegramSender;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@Component
+@RestControllerAdvice
+@RequiredArgsConstructor
 public class TradeExceptionHandler {
+
+    private final TelegramSender telegramSender;
 
     @ExceptionHandler(Exception.class)
     public void handleException(Exception e) {
         log.error(getErrorStackTrace(e));
+        telegramSender.sendMessage(getErrorStackTrace(e));
     }
 
     @ExceptionHandler(TradeException.class)
     public void handleTradeException(TradeException e) {
-        log.error(e.getMessage());
+        telegramSender.sendMessage(e.getMessage());
         log.error(getErrorStackTrace(e));
     }
 

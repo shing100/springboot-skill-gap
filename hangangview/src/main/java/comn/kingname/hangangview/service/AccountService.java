@@ -28,7 +28,7 @@ public class AccountService {
                 new HttpEntity<>(tokenHeaderProvider.getHeaders()), new ParameterizedTypeReference<List<Account.Response>>() {
         });
 
-        log.info("response : {}", response);
+        log.debug("response : {}", response);
         if (response.getStatusCode().isError()) {
             throw new TradeException(TradeErrorCode.UPBIT_SERVER_ERROR);
         }

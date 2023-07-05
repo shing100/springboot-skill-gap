@@ -18,9 +18,8 @@ public class AccountController {
 
     @GetMapping("/accounts")
     public List<Account.Response> getAccount() {
+        log.info("GET /accounts");
         return accountService.getAccounts();
     }
-
-
 
 }
