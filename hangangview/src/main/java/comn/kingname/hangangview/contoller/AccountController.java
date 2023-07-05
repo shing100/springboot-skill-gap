@@ -1,6 +1,6 @@
 package comn.kingname.hangangview.contoller;
 
-import comn.kingname.hangangview.domain.Account;
+import comn.kingname.hangangview.dto.Account;
 import comn.kingname.hangangview.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

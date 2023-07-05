@@ -1,4 +1,4 @@
-package comn.kingname.hangangview.domain;
+package comn.kingname.hangangview.dto;
 
 import lombok.*;
 

@@ -1,56 +1,67 @@
 package comn.kingname.hangangview.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import comn.kingname.hangangview.domain.Candle;
+import comn.kingname.hangangview.dto.MinuteCandles;
+import comn.kingname.hangangview.service.MarketService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ta4j.core.BarSeries;
-import org.ta4j.core.indicators.helpers.*;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class Strategy {
-    private static List<Map<String, Double>> df = new ArrayList<>();
 
-    public static List<Map<String, Double>> getOhlcvData(String interval, int count) {
-        // Implement this function
-        return null;
+    private final MarketService marketService;
+    private final ObjectMapper objectMapper;
+
+    public static boolean isBuySignal() {
+        return false;
     }
 
-    public static List<Map<String, Double>> calculateTr(List<Map<String, Double>> series) {
-        double prevClose = series.get(0).get("close");
-        for (Map<String, Double> row : series) {
-            double high = row.get("high");
-            double low = row.get("low");
-            double close = row.get("close");
+    public List<Candle> getOhlcvData(MinuteCandles.Request request) {
+        return marketService.getMinuteCandles(request).stream().map(o -> objectMapper.convertValue(o, Candle.class)).collect(Collectors.toList());
+    }
+
+    public List<Candle> calculateTr(List<Candle> candles) {
+        double prevClose = candles.get(0).getTrade_price();
+        for (Candle candle : candles) {
+            double high = candle.getHigh_price();
+            double low = candle.getLow_price();
+            double close = candle.getTrade_price();
             double tr = Math.max(high - low, Math.max(Math.abs(high - prevClose), Math.abs(low - prevClose)));
-            row.put("tr", tr);
+            candle.setTr(tr);
             prevClose = close;
         }
-        return series;
+        return candles;
     }
 
-    public static List<Map<String, Double>> calculateAtr(List<Map<String, Double>> series, int AP) {
+    public List<Candle> calculateAtr(List<Map<String, Double>> candles, int AP) {
         // Implement this function
         return null;
     }
 
-    public static List<Map<String, Double>> calculateBoundaries(List<Map<String, Double>> series, double coeff) {
+    public List<Candle> calculateBoundaries(List<Candle> candles, double coeff) {
         // Implement this function
         return null;
     }
 
-    public static List<Map<String, Double>> calculateMfi(List<Map<String, Double>> series) {
+    public List<Candle> calculateMfi(List<Candle> candles) {
         // Implement this function
         return null;
     }
 
-    public static List<Map<String, Double>> calculateAlphaTrend(List<Map<String, Double>> series) {
+    public List<Candle> calculateAlphaTrend(List<Candle> candles) {
         // Implement this function
         return null;
     }
 
-    public static List<Map<String, Double>> calculateSignals(List<Map<String, Double>> series) {
+    public List<Candle> calculateSignals(List<Candle> candles) {
         // Implement this function
         return null;
     }

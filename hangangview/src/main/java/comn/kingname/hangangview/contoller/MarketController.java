@@ -1,8 +1,9 @@
 package comn.kingname.hangangview.contoller;
 
 import comn.kingname.hangangview.domain.MarketCode;
-import comn.kingname.hangangview.domain.MinuteCandles;
+import comn.kingname.hangangview.dto.MinuteCandles;
 import comn.kingname.hangangview.service.MarketService;
+import comn.kingname.hangangview.util.TelegramSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MarketController {
 
     private final MarketService marketService;
+    private final TelegramSender telegramSender;
 
     @GetMapping("/market/all")
     public List<MarketCode> getMarketAll() {

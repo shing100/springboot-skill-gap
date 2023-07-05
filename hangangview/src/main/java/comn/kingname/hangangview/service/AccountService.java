@@ -1,7 +1,7 @@
 package comn.kingname.hangangview.service;
 
 import comn.kingname.hangangview.util.TokenHeaderProvider;
-import comn.kingname.hangangview.domain.Account;
+import comn.kingname.hangangview.dto.Account;
 import comn.kingname.hangangview.exception.TradeErrorCode;
 import comn.kingname.hangangview.exception.TradeException;
 import comn.kingname.hangangview.properties.UpbitProperties;

@@ -1,7 +1,7 @@
 package comn.kingname.hangangview.service;
 
 import comn.kingname.hangangview.domain.MarketCode;
-import comn.kingname.hangangview.domain.MinuteCandles;
+import comn.kingname.hangangview.dto.MinuteCandles;
 import comn.kingname.hangangview.exception.TradeErrorCode;
 import comn.kingname.hangangview.exception.TradeException;
 import comn.kingname.hangangview.properties.UpbitProperties;
@@ -12,7 +12,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
 import java.util.List;
