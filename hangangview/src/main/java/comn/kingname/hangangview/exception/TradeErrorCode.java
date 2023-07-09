@@ -8,6 +8,7 @@ public enum TradeErrorCode {
     INTERNAL_SERVER_ERROR("서버에 오류가 발생했습니다."),
     UPBIT_SERVER_ERROR("업비트 서버에 오류가 발생했습니다."),
     TELEGRAM_SERVER_ERROR("텔레그램 서버에 오류가 발생했습니다."),
+    ACCOUNT_NOT_FOUND("계좌를 찾을 수 없습니다."),
     INVALID_REQUEST("잘못된 요청입니다.");
 
     private final String message;

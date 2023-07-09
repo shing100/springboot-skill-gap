@@ -35,4 +35,21 @@ public class AccountService {
 
         return response.getBody();
     }
+
+    public Account.Response getBalance(String coin) {
+        ResponseEntity<List<Account.Response>> response = restTemplate.exchange(
+                properties.getApiUrl() + "/v1/accounts", HttpMethod.GET,
+                new HttpEntity<>(tokenHeaderProvider.getHeaders()), new ParameterizedTypeReference<List<Account.Response>>() {
+        });
+
+        log.debug("response : {}", response);
+        if (response.getStatusCode().isError()) {
+            throw new TradeException(TradeErrorCode.UPBIT_SERVER_ERROR);
+        }
+
+        return response.getBody().stream()
+                .filter(account -> account.getCurrency().equals(coin))
+                .findFirst()
+                .orElseThrow(() -> new TradeException(TradeErrorCode.ACCOUNT_NOT_FOUND));
+    }
 }

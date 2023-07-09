@@ -18,4 +18,23 @@ public class Candle {
     private Integer unit;                // 분 단위(유닛)	Integer
 
     private double tr;
+    private double atr;
+    private double atrRate;
+
+    private double upT;
+    private double downT;
+    private double mfi;
+    private double alphaTrend;
+
+    private int K1;
+    private int K2;
+    private int O1;
+    private int O2;
+
+    private boolean buySignal;
+    private boolean sellSignal;
+
+    private boolean finalBuySignal;
+    private boolean finalSellSignal;
+
 }
