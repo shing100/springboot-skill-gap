@@ -42,7 +42,7 @@ public class AccountService {
                 new HttpEntity<>(tokenHeaderProvider.getHeaders()), new ParameterizedTypeReference<List<Account.Response>>() {
         });
 
-        log.info("response : {}", response.getBody());
+        log.debug("response : {}", response.getBody());
         if (response.getStatusCode().isError()) {
             throw new TradeException(TradeErrorCode.UPBIT_SERVER_ERROR);
         }

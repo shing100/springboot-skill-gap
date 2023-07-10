@@ -16,7 +16,7 @@ public class TelegramSender {
     private final WebClientInvoker webClientInvoker;
 
     public void sendMessage(String msg) {
-        send(telegramProperties.getBotToken(), telegramProperties.getChatId(), msg);
+        send(telegramProperties.getBotToken(), telegramProperties.getChatId(), "[LG] ".concat(msg));
     }
 
     public void send(String botToken, String chatId, String msg) {

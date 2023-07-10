@@ -8,6 +8,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -27,6 +33,34 @@ public class TokenHeaderProvider {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
         headers.add("Authorization", creatAuthenticationToken());
+        return headers;
+    }
+
+    public HttpHeaders getJwtTokenHeaders(HashMap<String, String> params) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        ArrayList<String> queryElements = new ArrayList<>();
+        for(Map.Entry<String, String> entity : params.entrySet()) {
+            queryElements.add(entity.getKey() + "=" + entity.getValue());
+        }
+
+        String queryString = String.join("&", queryElements.toArray(new String[0]));
+
+        MessageDigest md = MessageDigest.getInstance("SHA-512");
+        md.update(queryString.getBytes("UTF-8"));
+        String queryHash = String.format("%0128x", new java.math.BigInteger(1, md.digest()));
+
+        Algorithm algorithm = Algorithm.HMAC256(properties.getSecretKey());
+        String jwtToken = JWT.create()
+                .withClaim("access_key", properties.getAccessKey())
+                .withClaim("nonce", UUID.randomUUID().toString())
+                .withClaim("query_hash", queryHash)
+                .withClaim("query_hash_alg", "SHA512")
+                .sign(algorithm);
+
+        String authenticationToken = "Bearer " + jwtToken;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", authenticationToken);
         return headers;
     }
 

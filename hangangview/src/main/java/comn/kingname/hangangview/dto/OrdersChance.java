@@ -4,7 +4,7 @@ import lombok.*;
 
 public class OrdersChance {
 
-    @Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
+    @Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor @Builder
     public static class Request {
         private String market;      // 마켓 코드 (ex. KRW-BTC)
     }
