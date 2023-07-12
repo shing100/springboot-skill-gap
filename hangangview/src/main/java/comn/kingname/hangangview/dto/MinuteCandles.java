@@ -25,6 +25,6 @@ public class MinuteCandles {
         private String unit;        // 분 단위(유닛)
         private String market;      // 마켓 코드 (ex. KRW-BTC)
         private String to;          // 없을 경우 가장 최신 캔들
-        private String count;       // max 200
+        private int count;       // max 200
     }
 }

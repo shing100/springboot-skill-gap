@@ -16,27 +16,31 @@ import static comn.kingname.hangangview.contants.Constants.*;
 @RequiredArgsConstructor
 public class TradeScheduler {
 
-        private final TradeService tradeService;
-        private final AccountService accountService;
-        private final TelegramSender telegramSender;
+    private final TradeService tradeService;
+    private final AccountService accountService;
+    private final TelegramSender telegramSender;
 
-        // 20초 마다 실행
-        @Scheduled(cron = "0/5 * * * * *")
-        public void trade() {
-            if (IS_TRADE) {
-                MinuteCandles.Request request = MinuteCandles.Request.builder()
-                        .market(MARKET)
-                        .unit(UNIT_COUNT)
-                        .count("100")
-                        .build();
+    public static String UNIT_COUNT = "10";
+    public static String MARKET = "KRW-FLOW";
 
-                tradeService.executeOrders(request);
-            }
+    // 20초 마다 실행
+    @Scheduled(cron = "0/5 * * * * *")
+    public void trade() {
+        if (IS_TRADE) {
+            MinuteCandles.Request request = MinuteCandles.Request.builder()
+                    .market(MARKET)
+                    .unit(UNIT_COUNT)
+                    .count(200)
+                    .build();
+
+            // TODO 캔들을 저장하는 로직 추가
+            tradeService.executeOrders(request);
         }
+    }
 
-        // 1시간 마다 실행
-        @Scheduled(cron = "0 0 0/3 * * *")
-        public void healthCheck() {
-            telegramSender.sendMessage("현재 " + (IS_TRADE ? "거래중" : "거래중지"));
-        }
+    // 1시간 마다 실행
+    @Scheduled(cron = "0 0 0/3 * * *")
+    public void healthCheck() {
+        telegramSender.sendMessage("현재 " + (IS_TRADE ? "거래중" : "거래중지"));
+    }
 }

@@ -8,6 +8,5 @@ public class Constants {
     public static final double PROFITABILITY_RATE= 1.012;
 
     public static boolean IS_TRADE = true;
-    public static String UNIT_COUNT = "60";
-    public static String MARKET = "KRW-FLOW";
+
 }

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static comn.kingname.hangangview.contants.Constants.MARKET;
-import static comn.kingname.hangangview.contants.Constants.UNIT_COUNT;
 
 @Slf4j
 @RestController

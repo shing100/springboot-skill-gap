@@ -65,13 +65,12 @@ public class TradeService {
 
     public void sellCoin(MinuteCandles.Request request, double coinBalance, double currentPrice) {
         if (coinBalance > 0) {
-            log.info("매도 주문 : " + request.getMarket() + " " + coinBalance + "개");
             double avgPrice = getAvgCoinPrice(request);
-            if (avgPrice * coinBalance > MIN_BUY_AMOUNT && avgPrice * PROFITABILITY_RATE >= currentPrice) {
+            if (avgPrice * coinBalance > MIN_BUY_AMOUNT) {
                 // TODO 수수료 계산 추가 필요
-                Orders.Response sellMarketOrder = marketService.marketOrder(request.getMarket(), coinBalance * 0.9995, OrderType.ASK);
+                Orders.Response sellMarketOrder = marketService.marketOrder(request.getMarket(), coinBalance, OrderType.ASK);
                 if (Objects.nonNull(sellMarketOrder)) {
-                    telegramSender.sendMessage(request.getMarket() + " 매도 완료 금액 : " + sellMarketOrder.getPrice());
+                    telegramSender.sendMessage(request.getMarket() + " 매도 완료");
                 } else {
                     telegramSender.sendMessage(request.getMarket() + "매수 실패: 주문 결과를 받지 못했습니다.");
                 }
@@ -82,10 +81,9 @@ public class TradeService {
     public void buyCoin(MinuteCandles.Request request) {
         double krw = Double.parseDouble(accountService.getBalance("KRW").getBalance());
         if (krw > MIN_BUY_AMOUNT) {
-            log.info(krw + "원으로 " + request.getMarket() + " 매수");
             Orders.Response buyMarketOrder = marketService.marketOrder(request.getMarket(), krw * 0.9995, OrderType.BID);
             if (Objects.nonNull(buyMarketOrder)) {
-                telegramSender.sendMessage(request.getMarket() + " 매수 완료 금액 : " + buyMarketOrder.getPrice());
+                telegramSender.sendMessage(request.getMarket() + " 매수 완료");
             } else {
                 telegramSender.sendMessage(request.getMarket() + "매수 실패: 주문 결과를 받지 못했습니다.");
             }
