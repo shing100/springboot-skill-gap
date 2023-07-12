@@ -66,7 +66,7 @@ public class TradeService {
     public void sellCoin(MinuteCandles.Request request, double coinBalance, double currentPrice) {
         if (coinBalance > 0) {
             double avgPrice = getAvgCoinPrice(request);
-            if (avgPrice * coinBalance > MIN_BUY_AMOUNT) {
+            if (avgPrice * coinBalance > MIN_BUY_AMOUNT && Math.abs(avgPrice - currentPrice) / avgPrice > 0.02 ) {
                 // TODO 수수료 계산 추가 필요
                 Orders.Response sellMarketOrder = marketService.marketOrder(request.getMarket(), coinBalance, OrderType.ASK);
                 if (Objects.nonNull(sellMarketOrder)) {
